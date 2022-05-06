@@ -53,8 +53,6 @@ public class ExchangeParserService {
                 pool.shutdown();
             }
 
-            System.out.println("Size : " + quoteRepository.size());
-
             System.out.println();
             System.out.println("Самые дорогие акции : ");
             List<Quote> quoteArr = quoteRepository.getMostValuableCompanies();
