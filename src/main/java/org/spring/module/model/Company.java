@@ -7,19 +7,19 @@ import lombok.Setter;
 @Setter
 public class Company {
     String symbol;
-    String exchange;
-    String exchangeSuffix;
-    String exchangeName;
-    String exchangeSegment;
-    String exchangeSegmentName;
-    String name;
-    String date;
-    String type;
-    String iexId;
-    String region;
-    String currency;
-    String isEnabled;
-    String figi;
-    String cik;
-    String lei;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Company company = (Company) o;
+
+        return symbol != null ? symbol.equals(company.symbol) : company.symbol == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return symbol != null ? symbol.hashCode() : 0;
+    }
 }
