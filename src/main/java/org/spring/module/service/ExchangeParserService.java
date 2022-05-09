@@ -1,25 +1,26 @@
 package org.spring.module.service;
 
 import com.google.gson.Gson;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.spring.module.model.Company;
 import org.spring.module.model.Quote;
 import org.spring.module.repository.CompanyRepository;
 import org.spring.module.repository.QuoteRepository;
+import org.spring.module.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
 @SpringBootApplication
 public class ExchangeParserService {
 
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeParserService.class);
     private CompanyRepository companyRepository;
     private QuoteRepository quoteRepository;
     private RestTemplate restTemplate;
@@ -35,7 +36,6 @@ public class ExchangeParserService {
         this.restTemplate = restTemplate;
         this.gson = gson;
     }
-
 
     public void runParser() {
         while (true) {
@@ -53,20 +53,17 @@ public class ExchangeParserService {
                 pool.shutdown();
             }
 
-            System.out.println();
-            System.out.println("Самые дорогие акции : ");
+            LOGGER.info("");
+            LOGGER.info("{}", Constants.EXPENSIVE);
             List<Quote> quoteArr = quoteRepository.getMostValuableCompanies();
-
             for (Quote quote : quoteArr) {
-                System.out.println(quote.getCompanyName() + " : " + quote.getIexRealtimePrice() + " SizePrice : " + quote.getPriceArr().size());
+                LOGGER.info("{} : {}",quote.getCompanyName(), quote.getIexRealtimePrice());
             }
-
+            LOGGER.info("");
+            LOGGER.info("{}", Constants.MAXIMUM_CHANGED_SHARES);
             quoteArr = quoteRepository.getCompaniesHighestPercentageChange();
-
-            System.out.println();
-            System.out.println("Максимальное измиение : ");
             for (Quote quote : quoteArr) {
-                System.out.println(quote.getCompanyName() + " : " + (quote.getIexRealtimePrice() - quote.getLatestPrice()));
+                LOGGER.info("{} : {}",quote.getCompanyName(), (quote.getIexRealtimePrice() - quote.getLatestPrice()));
             }
         }
     }
