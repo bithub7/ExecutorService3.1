@@ -1,40 +1,37 @@
 package org.spring.module.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.Date;
 
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
-@Setter
+import javax.persistence.*;
+
+@Entity
+@Table(name = "quote")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Quote {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
+    @Column(name = "company_name")
     private String companyName;
-    private double iexRealtimePrice;
-    private double latestPrice;
 
-    private List<Double> priceArr = new ArrayList<>();
+    @Column(name = "symbol")
+    private String symbol;
 
-    public List<Double> addPrice(double price){
-        priceArr.add(price);
-        return priceArr;
-    }
+    @Column(name = "iex_realtime_price")
+    private Double iexRealtimePrice;
 
-    public List<Double> priceHistory(){
-        return priceArr;
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @Column(name = "latest_price")
+    private Double latestPrice;
 
-        Quote quote = (Quote) o;
+    @Column(name = "date")
+    private Date date;
 
-        return companyName != null ? companyName.equals(quote.companyName) : quote.companyName == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return companyName != null ? companyName.hashCode() : 0;
-    }
 }

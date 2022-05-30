@@ -1,25 +1,23 @@
 package org.spring.module.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+import javax.persistence.*;
+
+@Entity
+@Table(name = "company")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Company {
-    String symbol;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
 
-        Company company = (Company) o;
+    @Column(name = "symbol")
+    private String symbol;
 
-        return symbol != null ? symbol.equals(company.symbol) : company.symbol == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return symbol != null ? symbol.hashCode() : 0;
-    }
 }
