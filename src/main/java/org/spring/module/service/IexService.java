@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -40,6 +41,9 @@ public class IexService {
         for(String companyIdentifier : companyNameArr){
             iexApiClient.getCompanyDetails(companyIdentifier);
         }
+        List<Quote> quoteList = iexApiClient.getQuoteList();
+        quoteRepository.saveAll(quoteList);
+        iexApiClient.setQuoteList(new ArrayList<>());
     }
 
     @Scheduled(cron="${get.quotes.iex.cron}")

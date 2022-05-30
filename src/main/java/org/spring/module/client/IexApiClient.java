@@ -34,7 +34,7 @@ public class IexApiClient {
     public CompletableFuture<Void> getCompanyDetails(String companyIdentifier) {
         String urlComInf = apiHost + "stock/" + companyIdentifier + "/quote?token=" + apiToken;
         return CompletableFuture.supplyAsync(() ->
-                restTemplate.getForObject(urlComInf, QuoteDto.class)).thenAccept(quoteDto -> quoteRepository.save(quoteDto.toQuote()));
+                restTemplate.getForObject(urlComInf, QuoteDto.class)).thenAccept(quoteDto -> quoteList.add(quoteDto.toQuote()));
     }
 
     public List<String> getCompanyNames() {
